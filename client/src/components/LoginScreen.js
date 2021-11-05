@@ -1,5 +1,6 @@
-import * as React from 'react';
+import { useContext } from 'react';
 import AuthContext from '../auth'
+import Copyright from './Copyright'
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -15,19 +16,6 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { GlobalStoreContext } from '../store'
 
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
-
 const theme = createTheme();
 
 export default function LoginScreen() {
@@ -36,20 +24,16 @@ export default function LoginScreen() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
+    const formData = new FormData(event.currentTarget);
     auth.loginUser({
         email: formData.get('email'),
         password: formData.get('password')
     }, store);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
   };
 
   return (
     <ThemeProvider theme={theme}>
-      <Grid container component="main" sx={{ height: '100vh' }}>
+      <Grid container component="main" sx={{ maxHeight: '100vh' }}>
         <CssBaseline />
         <Grid
           item
@@ -134,3 +118,6 @@ export default function LoginScreen() {
     </ThemeProvider>
   );
 }
+
+
+
