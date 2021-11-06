@@ -33,7 +33,7 @@ export default function LoginScreen() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Grid container component="main" sx={{ maxHeight: '100vh' }}>
+      <Grid container component="main" sx={{ maxHeight: '150vh' }}>
         <CssBaseline />
         <Grid
           item
