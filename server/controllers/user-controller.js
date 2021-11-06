@@ -122,7 +122,7 @@ logoutUser = async (res) =>{
     return res
             .status(200)
             .json({ message: "successfully logged out." });
-}
+} 
 
 module.exports = {
     getLoggedIn,
