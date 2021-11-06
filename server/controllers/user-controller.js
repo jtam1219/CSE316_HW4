@@ -3,17 +3,23 @@ const User = require('../models/user-model')
 const bcrypt = require('bcryptjs')
 
 getLoggedIn = async (req, res) => {
-    auth.verify(req, res, async function () {
-        const loggedInUser = await User.findOne({ _id: req.userId });
-        return res.status(200).json({
-            loggedIn: true,
-            user: {
-                firstName: loggedInUser.firstName,
-                lastName: loggedInUser.lastName,
-                email: loggedInUser.email
-            }
-        }).send();
-    })
+    console.log(req.cookies)
+    try{
+        auth.verify(req, res, async function () {
+            const loggedInUser = await User.findOne({ _id: req.userId });
+            return res.status(200).json({
+                loggedIn: true,
+                user: {
+                    firstName: loggedInUser.firstName,
+                    lastName: loggedInUser.lastName,
+                    email: loggedInUser.email
+                }
+            }).send();
+        })
+    }
+    catch (err) {
+        console.error(err)
+    }
 }
 
 registerUser = async (req, res) => {
@@ -53,7 +59,7 @@ registerUser = async (req, res) => {
         const passwordHash = await bcrypt.hash(password, salt);
 
         const newUser = new User({
-            firstName, lastName, email, passwordHash
+            firstName, lastName, email, passwordHash, salt
         });
         const savedUser = await newUser.save();
 
@@ -78,7 +84,49 @@ registerUser = async (req, res) => {
     }
 }
 
+loginUser = async (req, res) => {
+    const {email, password} = req.body;
+    console.log(req.body);
+    if (!email || !password) {
+        return res
+            .status(400)
+            .json({ errorMessage: "Please enter all required fields." });
+    }
+    const existingUser = await User.findOne({ email: email });
+    const salt = existingUser.salt; 
+    const passwordHash = await bcrypt.hash(password, salt);
+
+    if (existingUser.passwordHash!=passwordHash){
+        return res
+            .status(400)
+            .json({ errorMessage: "Incorrect password." });
+    }
+    else{
+        const token = auth.signToken(existingUser);
+        await res.cookie("token", token, {
+            httpOnly: true,
+            secure: true,
+            sameSite: "none"
+        }).status(200).json({
+            success: true,
+            user: {
+                firstName: existingUser.firstName,
+                lastName: existingUser.lastName,
+                email: existingUser.email
+            }
+        }).send();
+    }
+}
+
+logoutUser = async (res) =>{
+    return res
+            .status(200)
+            .json({ message: "successfully logged out." });
+}
+
 module.exports = {
     getLoggedIn,
-    registerUser
+    registerUser,
+    loginUser,
+    logoutUser
 }
