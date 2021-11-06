@@ -118,11 +118,11 @@ loginUser = async (req, res) => {
     }
 }
 
-logoutUser = async (res) =>{
+logoutUser = async (req, res) =>{
     return res
             .status(200)
-            .json({ message: "successfully logged out." });
-} 
+            .json({errorMessage:"" });
+}
 
 module.exports = {
     getLoggedIn,
