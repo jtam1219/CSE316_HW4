@@ -121,7 +121,7 @@ loginUser = async (req, res) => {
 logoutUser = async (req, res) =>{
     return res
             .status(200)
-            .json({errorMessage:"" });
+            .json({errorMessage:"None. Successfully logged out." });
 }
 
 module.exports = {
