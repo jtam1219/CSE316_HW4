@@ -257,6 +257,7 @@ function GlobalStoreContextProvider(props) {
                 payload: top5List
             });
         }
+        store.showDeleteListModal();
     }
 
     store.deleteList = async function (listToDelete) {
@@ -269,6 +270,16 @@ function GlobalStoreContextProvider(props) {
 
     store.deleteMarkedList = function () {
         store.deleteList(store.listMarkedForDeletion);
+        store.hideDeleteListModal();
+    }
+
+    store.showDeleteListModal = function() {
+        
+        //modal.classList.add("is-visible");
+    }
+    store.hideDeleteListModal = function() {
+        
+        //modal.classList.remove("is-visible");
     }
 
     store.unmarkListForDeletion = function () {

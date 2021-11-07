@@ -70,7 +70,7 @@ export default function AppBanner() {
             }}
             open={isMenuOpen}
             onClose={handleMenuClose}
-        >
+        >   
             <MenuItem onClick={handleLogout}>Logout</MenuItem>
         </Menu>        
 
@@ -84,7 +84,11 @@ export default function AppBanner() {
     }
     
     function getAccountMenu(loggedIn) {
-        return <AccountCircle />;
+        if (loggedIn){
+            return auth.user.firstName[0].toUpperCase()+auth.user.lastName[0].toUpperCase();
+        } else {
+            return <AccountCircle />;
+        }
     }
 
     return (

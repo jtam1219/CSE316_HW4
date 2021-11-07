@@ -47,7 +47,7 @@ function AuthContextProvider(props) {
             }
             case AuthActionType.LOGOUT_USER: {
                 return setAuth({
-                    user: payload.user,
+                    user: null,
                     loggedIn: false
                 })
             }
@@ -101,6 +101,7 @@ function AuthContextProvider(props) {
                         user: response.data.user
                     }
                 })
+                history.push("/");
                 store.loadIdNamePairs();
             }
         }
@@ -120,6 +121,7 @@ function AuthContextProvider(props) {
                     }
                 });
             }
+            history.push("/");
         }
         catch(err){
             console.log(err);
