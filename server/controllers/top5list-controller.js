@@ -53,6 +53,7 @@ updateTop5List = async (req, res) => {
 
         top5List.name = body.name
         top5List.items = body.items
+        top5List.ownerEmail = body.ownerEmail
         top5List
             .save()
             .then(() => {
@@ -105,6 +106,7 @@ getTop5Lists = async (req, res) => {
                 .status(404)
                 .json({ success: false, error: `Top 5 Lists not found` })
         }
+        console.log("top5Lists:"+top5Lists);
         return res.status(200).json({ success: true, data: top5Lists })
     }).catch(err => console.log(err))
 }
@@ -122,14 +124,18 @@ getTop5ListPairs = async (req, res) => {
         else {
             // PUT ALL THE LISTS INTO ID, NAME PAIRS
             let pairs = [];
+            //console.log(auth)
             for (let key in top5Lists) {
                 let list = top5Lists[key];
+                //Make some condition where it matches list.ownerEmail with current loggedIn user.
                 let pair = {
                     _id: list._id,
-                    name: list.name
+                    name: list.name,
+                    ownerEmail: list.ownerEmail
                 };
                 pairs.push(pair);
             }
+            //console.log(pairs);
             return res.status(200).json({ success: true, idNamePairs: pairs })            
         }
     }).catch(err => console.log(err))

@@ -86,13 +86,22 @@ registerUser = async (req, res) => {
 
 loginUser = async (req, res) => {
     const {email, password} = req.body;
-    console.log(req.body);
     if (!email || !password) {
         return res
             .status(400)
             .json({ errorMessage: "Please enter all required fields." });
     }
     const existingUser = await User.findOne({ email: email });
+
+    if (!existingUser) {
+        return res
+            .status(400)
+            .json({
+                success: false,
+                errorMessage: "No account with this email exists."
+            })
+    }
+
     const salt = existingUser.salt; 
     const passwordHash = await bcrypt.hash(password, salt);
 
@@ -119,9 +128,9 @@ loginUser = async (req, res) => {
 }
 
 logoutUser = async (req, res) =>{
-    return res
+    return res.clearCookie('token', '',{maxage: 1})
             .status(200)
-            .json({errorMessage:"None. Successfully logged out." });
+            .json({errorMessage:"None. Successfully logged out." }).send();
 }
 
 module.exports = {
