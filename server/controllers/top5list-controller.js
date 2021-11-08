@@ -130,7 +130,7 @@ getTop5ListPairs = async (req, res) => {
                 };
                 pairs.push(pair);
             }
-            return res.status(200).json({ success: true, idNamePairs: pairs })
+            return res.status(200).json({ success: true, idNamePairs: pairs })            
         }
     }).catch(err => console.log(err))
 }

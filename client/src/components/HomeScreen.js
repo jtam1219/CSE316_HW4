@@ -4,6 +4,8 @@ import ListCard from './ListCard.js'
 import { Fab, Typography } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add';
 import List from '@mui/material/List';
+import AuthContext from '../auth';
+
 /*
     This React component lists all the top5 lists in the UI.
     
@@ -11,6 +13,7 @@ import List from '@mui/material/List';
 */
 const HomeScreen = () => {
     const { store } = useContext(GlobalStoreContext);
+     const { auth } = useContext(AuthContext);
 
     useEffect(() => {
         store.loadIdNamePairs();
@@ -21,10 +24,24 @@ const HomeScreen = () => {
     }
     let listCard = "";
     if (store) {
+        console.log(auth.user.email)
+        console.log(store.idNamePairs)
+        let sortedPairs=[];
+        for (let idNamePair in store.idNamePairs){
+            let list = store.idNamePairs[idNamePair];
+            let pair = {
+                _id: list._id,
+                name: list.name,
+                ownerEmail: list.ownerEmail
+            };
+            if (list.ownerEmail===auth.user.email){
+                sortedPairs.push(pair);
+            }
+        }
         listCard = 
             <List sx={{ width: '90%', left: '5%', bgcolor: 'background.paper' }}>
             {
-                store.idNamePairs.map((pair) => (
+                sortedPairs.map((pair) => (
                     <ListCard
                         key={pair._id}
                         idNamePair={pair}
@@ -34,6 +51,7 @@ const HomeScreen = () => {
             }
             </List>;
     }
+
     return (
         <div id="top5-list-selector">
             <div id="list-selector-heading">

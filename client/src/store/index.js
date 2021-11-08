@@ -5,6 +5,7 @@ import api from '../api'
 import MoveItem_Transaction from '../transactions/MoveItem_Transaction'
 import UpdateItem_Transaction from '../transactions/UpdateItem_Transaction'
 import AuthContext from '../auth'
+import DeleteModal from '../components/DeleteModal'
 /*
     This is our global data store. Note that it uses the Flux design pattern,
     which makes use of things like actions and reducers. 
@@ -257,7 +258,6 @@ function GlobalStoreContextProvider(props) {
                 payload: top5List
             });
         }
-        store.showDeleteListModal();
     }
 
     store.deleteList = async function (listToDelete) {
@@ -270,16 +270,6 @@ function GlobalStoreContextProvider(props) {
 
     store.deleteMarkedList = function () {
         store.deleteList(store.listMarkedForDeletion);
-        store.hideDeleteListModal();
-    }
-
-    store.showDeleteListModal = function() {
-        
-        //modal.classList.add("is-visible");
-    }
-    store.hideDeleteListModal = function() {
-        
-        //modal.classList.remove("is-visible");
     }
 
     store.unmarkListForDeletion = function () {

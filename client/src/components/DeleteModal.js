@@ -29,25 +29,27 @@ const style = {
 };
 
 export default function DeleteModal() {
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   const { store } = useContext(GlobalStoreContext);
-    let name = "";
-    if (store.currentList) {
-        name = store.currentList.name;
-    }
-    function handleDeleteList() {
-        store.deleteMarkedList();
-    }
-    function handleCloseModal() {
-        store.hideDeleteListModal();
-    }
+  let name = "";
+  if (store.currentList) {
+      name = store.currentList.name;
+  }
+  function handleDeleteList() {
+      store.deleteMarkedList();
+  }
 
   return (
     <div>
       <Modal
+        open={open}
+        onClose={handleClose}
         className="modal"
         id="delete-modal"
         data-animation="slideInOutLeft"
-        onClose={handleCloseModal}
+        onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -65,7 +67,7 @@ export default function DeleteModal() {
               <Button 
                 id="dialog-no-button"
                 className="modal-button"
-                onClick={handleCloseModal}
+                onClick={handleClose}
                 variant="contained">
                   Cancel
               </Button>
