@@ -58,7 +58,7 @@ function GlobalStoreContextProvider(props) {
             case GlobalStoreActionType.CHANGE_LIST_NAME: {
                 return setStore({
                     idNamePairs: payload.idNamePairs,
-                    currentList: payload.top5List,
+                    currentList: null,
                     newListCounter: store.newListCounter,
                     isListNameEditActive: false,
                     isItemEditActive: false,
@@ -179,7 +179,7 @@ function GlobalStoreContextProvider(props) {
                                 type: GlobalStoreActionType.CHANGE_LIST_NAME,
                                 payload: {
                                     idNamePairs: pairsArray,
-                                    top5List: top5List
+                                    //top5List: top5List
                                 }
                             });
                         }
@@ -293,9 +293,9 @@ function GlobalStoreContextProvider(props) {
                     payload: top5List
                 });
                 history.push("/top5list/" + top5List._id);
-                store.updateToolbarButtons();
             }
         }
+        store.updateToolbarButtons();
     }
 
     store.addMoveItemTransaction = function (start, end) {
@@ -350,38 +350,44 @@ function GlobalStoreContextProvider(props) {
 
     store.undo = function () {
         tps.undoTransaction();
+        store.updateToolbarButtons();
     }
 
     store.redo = function () {
         tps.doTransaction();
+        store.updateToolbarButtons();
     }
 
     store.canUndo = function() {
+        console.log("Checked Undos")
         return tps.hasTransactionToUndo();
     }
 
     store.canRedo = function() {
+        console.log("Checked Redos")
         return tps.hasTransactionToRedo();
     }
 
     store.disableButton = function(id) {
         let button = document.getElementById(id);
+        button.classList.add("top5-button-disabled");
         button.disabled=true;
     }
 
     store.enableButton = function(id) {
         let button = document.getElementById(id);
+        button.classList.remove("top5-button-disabled");
         button.disabled=false;
     }
 
     store.updateToolbarButtons = function() {
-        if (!store.canUndo) {
+        if (!store.canUndo()) {
             this.disableButton("undo-button");
         }
         else {
             this.enableButton("undo-button");
         }   
-        if (!store.canRedo) {
+        if (!store.canRedo()) {
             this.disableButton("redo-button");
         }
         else {
