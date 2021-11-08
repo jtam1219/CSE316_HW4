@@ -21,7 +21,7 @@ const theme = createTheme();
 
 export default function LoginScreen() {
   const { auth } = useContext(AuthContext);
-  const { store } = useContext(GlobalStoreContext)
+  const { store } = useContext(GlobalStoreContext);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -34,8 +34,8 @@ export default function LoginScreen() {
 
   return (
     <ThemeProvider theme={theme}>
-      
       <Grid container component="main" sx={{ maxHeight: '150vh' }}>
+        <ErrorModals />
         <CssBaseline />
         <Grid
           item

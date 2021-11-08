@@ -31,19 +31,22 @@ function AuthContextProvider(props) {
             case AuthActionType.GET_LOGGED_IN: {
                 return setAuth({
                     user: payload.user,
-                    loggedIn: payload.loggedIn
+                    loggedIn: payload.loggedIn,
+                    
                 });
             }
             case AuthActionType.REGISTER_USER: {
                 return setAuth({
                     user: payload.user,
-                    loggedIn: true
+                    loggedIn: payload.loggedIn,
+                    errorMessage: payload.errorMessage
                 })
             }
             case AuthActionType.LOGIN_USER: {
                 return setAuth({
                     user: payload.user,
-                    loggedIn: true
+                    loggedIn: payload.loggedIn,
+                    errorMessage: payload.errorMessage
                 });
             }
             case AuthActionType.LOGOUT_USER: {
@@ -67,14 +70,12 @@ function AuthContextProvider(props) {
                     payload: {
                         loggedIn: response.data.loggedIn,
                         user: response.data.user,
-                        errorMessage: response.data.errorMessage
                     }
                 });
             }
         }
         catch (err) {
             auth.errorMessage=err.response.data.errorMessage;
-           
             // maybe set loggied to false or something
         }
         
@@ -88,7 +89,8 @@ function AuthContextProvider(props) {
                     type: AuthActionType.REGISTER_USER,
                     payload: {
                         user: response.data.user,
-                        errorMessage: response.data.errorMessage
+                        loggedIn:true,
+                        errorMessage:null
                     }
                 })
                 history.push("/");
@@ -96,7 +98,15 @@ function AuthContextProvider(props) {
             }
         }
         catch(err){
-            auth.errorMessage=err.response.data.errorMessage;
+            console.log("Error.")
+            authReducer({
+                type: AuthActionType.REGISTER_USER,
+                payload: {
+                    loggedIn: false,
+                    user: null,
+                    errorMessage: err.response.data.errorMessage
+                }
+            });
         }
     }
 
@@ -108,8 +118,8 @@ function AuthContextProvider(props) {
                     type: AuthActionType.LOGIN_USER,
                     payload: {
                         user: response.data.user,
-                        errorMessage: response.data.errorMessage
-                        
+                        loggedIn:true,
+                        errorMessage:null
                     }
                 })
                 history.push("/");
@@ -117,7 +127,15 @@ function AuthContextProvider(props) {
             }
         }
         catch(err){
-            auth.errorMessage=err.response.data.errorMessage;
+            console.log("Error.")
+            authReducer({
+                type: AuthActionType.LOGIN_USER,
+                payload: {
+                    loggedIn: false,
+                    user: null,
+                    errorMessage: err.response.data.errorMessage
+                }
+            });
         }
     }
 

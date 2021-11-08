@@ -26,7 +26,9 @@ export const GlobalStoreActionType = {
     UNMARK_LIST_FOR_DELETION: "UNMARK_LIST_FOR_DELETION",
     SET_CURRENT_LIST: "SET_CURRENT_LIST",
     SET_ITEM_EDIT_ACTIVE: "SET_ITEM_EDIT_ACTIVE",
-    SET_LIST_NAME_EDIT_ACTIVE: "SET_LIST_NAME_EDIT_ACTIVE"
+    SET_LIST_NAME_EDIT_ACTIVE: "SET_LIST_NAME_EDIT_ACTIVE",
+    DISPLAY_ERR: "DISPLAY_ERR",
+    REMOVE_ERR: "REMOVE_ERR"
 }
 
 // WE'LL NEED THIS TO PROCESS TRANSACTIONS
@@ -151,6 +153,28 @@ function GlobalStoreContextProvider(props) {
                     isListNameEditActive: true,
                     isItemEditActive: false,
                     listMarkedForDeletion: null
+                });
+            }
+            case GlobalStoreActionType.DISPLAY_ERR: {
+                return setStore({
+                    idNamePairs: null,
+                    currentList: null,
+                    newListCounter: null,
+                    isListNameEditActive: false,
+                    isItemEditActive: false,
+                    listMarkedForDeletion: null,
+                    errorMessage: payload
+                });
+            }
+            case GlobalStoreActionType.REMOVE_ERR: {
+                return setStore({
+                    idNamePairs: null,
+                    currentList: null,
+                    newListCounter: null,
+                    isListNameEditActive: false,
+                    isItemEditActive: false,
+                    listMarkedForDeletion: null,
+                    errorMessage: null
                 });
             }
             default:
@@ -412,6 +436,19 @@ function GlobalStoreContextProvider(props) {
         });
     }
 
+    store.displayErr = function (err){
+        storeReducer({
+            type: GlobalStoreActionType.DISPLAY_ERR,
+            payload: err
+        })
+    }
+
+    store.removeErr = function (){
+        storeReducer({
+            type: GlobalStoreActionType.REMOVE_ERR,
+            payload: null
+        })
+    }
     return (
         <GlobalStoreContext.Provider value={{
             store

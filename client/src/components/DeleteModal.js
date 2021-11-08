@@ -5,12 +5,11 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal'
 import { useContext } from 'react'
 import { GlobalStoreContext } from '../store'
-import borderRadius from '@mui/system';
 
 const style = {
   position: 'absolute',
-  top: '25%',
-  left: '25%',
+  top: '50%',
+  left: '50%',
   transform: 'translate(-50%, -50%)',
   width: 400,
   bgcolor: 'background.paper',

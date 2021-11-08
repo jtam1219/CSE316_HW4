@@ -7,7 +7,7 @@ import { useContext } from 'react';
 import AuthContext from '../auth'
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
-import borderRadius from '@mui/system';
+import { GlobalStoreContext } from '../store'
 
 const style = {
   position: 'absolute',
@@ -18,19 +18,20 @@ const style = {
   bgcolor: 'background.paper',
   borderRadius:3,
   p: 1,
-  padding:1,
+  padding:0,
 };
 
 export default function ErrorModals() {
   const { auth } = useContext(AuthContext);
-  const [open, setOpen] = React.useState(false);
+  const { store } = useContext(GlobalStoreContext);
   function handleClose(){
-    isOpen=false;
+    store.removeErr();
     auth.errorMessage=null;
+    isOpen=false;
   }
 
   let isOpen=false;
-  if (auth.errorMessage){
+  if (auth.errorMessage && auth.errorMessage!=="Unauthorized"){
     isOpen=true;
   }
 
@@ -44,12 +45,13 @@ export default function ErrorModals() {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
+          
           <Alert severity="error">
-            <AlertTitle>{auth.errorMessage}</AlertTitle>
+            <AlertTitle>{auth.errorMessage}<Button onClick={handleClose}>Cancel</Button></AlertTitle>
           </Alert>
           </Typography>
           <Typography id="modal-modal-description errorModal" sx={{ mt: 2 }}>
-            <Button onClick={handleClose}>Ok</Button>
+          
           </Typography>
         </Box>
       </Modal>
