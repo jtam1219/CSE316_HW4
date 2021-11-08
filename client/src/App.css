@@ -307,11 +307,15 @@ input {
   background: var(--lightgray);
 }
 
+.modal-prompt{
+  text-align:center;
+  font-size: 48px;
+}
+
 .modal-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: dotted;
 }
 
 .modal-header,
@@ -328,6 +332,10 @@ input {
   width: 20%;
 }
 
+.modal-buttons{
+  color:white;
+}
+
 .dialog-header {
   font-size: 24pt;
 }
@@ -337,9 +345,19 @@ input {
 }
 
 #confirm-cancel-container {
+  background-color:#025ab1;
+  border-radius:3px;
+  text-align: center;
+}
+#confirm-cancel-container:hover {
+  background-color:rgb(38, 133, 170);
+  border-radius:3px;
   text-align: center;
 }
 
+#errorModal{
+  align-items:center;
+}
 /* ANIMATIONS
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 [data-animation] .modal-dialog {

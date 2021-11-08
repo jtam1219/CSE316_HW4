@@ -5,25 +5,23 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal'
 import { useContext } from 'react'
 import { GlobalStoreContext } from '../store'
+import borderRadius from '@mui/system';
 
 const style = {
   position: 'absolute',
-  top: '50%',
-  left: '50%',
+  top: '25%',
+  left: '25%',
   transform: 'translate(-50%, -50%)',
   width: 400,
   bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
+  borderRadius: 3,
+  boxShadow: 4,
   p: 4,
 };
 
 export default function DeleteModal() {
   const { store } = useContext(GlobalStoreContext);
   let name = "";
-  if (store.currentList) {
-        name = store.currentList.name;
-  }
 
   function handleDeleteList() {
     store.deleteMarkedList();
@@ -37,6 +35,7 @@ export default function DeleteModal() {
 
   let isOpen=false;
   if (store.listMarkedForDeletion){
+    name=store.listMarkedForDeletion.name;
     isOpen=true;
   }
 
@@ -50,12 +49,16 @@ export default function DeleteModal() {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
+          <Typography id="modal-modal-title" variant="h6" component="h2" className="modal-prompt">
             Delete the Top 5 {name} List?
           </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            <Button onClick={handleDeleteList}>Confirm</Button>
-            <Button onClick={handleClose}>Cancel</Button>
+          <Typography id="modal-modal-description" className="modal-header" sx={{ mt: 2 }}>
+            <div id="confirm-cancel-container">
+              <Button className="modal-buttons" onClick={handleDeleteList}>Confirm</Button>
+            </div>
+            <div id="confirm-cancel-container">
+              <Button className="modal-buttons" onClick={handleClose}>Cancel</Button>
+            </div>
           </Typography>
         </Box>
       </Modal>

@@ -16,7 +16,8 @@ export const AuthActionType = {
 function AuthContextProvider(props) {
     const [auth, setAuth] = useState({
         user: null,
-        loggedIn: false
+        loggedIn: false,
+        errorMessage: null
     });
     const history = useHistory();
 
@@ -70,24 +71,30 @@ function AuthContextProvider(props) {
                 });
             }
         }
-        catch (error) {
-            console.log(error);
+        catch (err) {
+            auth.errorMessage=err.response.data.errorMessage;
+           
             // maybe set loggied to false or something
         }
         
     }
 
     auth.registerUser = async function(userData, store) {
-        const response = await api.registerUser(userData);      
-        if (response.status === 200) {
-            authReducer({
-                type: AuthActionType.REGISTER_USER,
-                payload: {
-                    user: response.data.user
-                }
-            })
-            history.push("/");
-            store.loadIdNamePairs();
+        try{
+            const response = await api.registerUser(userData);      
+            if (response.status === 200) {
+                authReducer({
+                    type: AuthActionType.REGISTER_USER,
+                    payload: {
+                        user: response.data.user
+                    }
+                })
+                history.push("/");
+                store.loadIdNamePairs();
+            }
+        }
+        catch(err){
+            auth.errorMessage=err.response.data.errorMessage;
         }
     }
 
@@ -106,7 +113,7 @@ function AuthContextProvider(props) {
             }
         }
         catch(err){
-            console.log(err);
+            auth.errorMessage=err.response.data.errorMessage;
         }
     }
 
@@ -124,7 +131,7 @@ function AuthContextProvider(props) {
             history.push("/");
         }
         catch(err){
-            console.log(err);
+            auth.errorMessage=err.response.data.errorMessage;
         }
     }
 
