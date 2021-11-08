@@ -24,7 +24,7 @@ function EditToolbar() {
         store.closeCurrentList();
     }
     let editStatus = false;
-    if (store.isListNameEditActive) {
+    if (store.isItemEditActive) {
         editStatus = true;
     }  
     return (
@@ -32,12 +32,14 @@ function EditToolbar() {
             <Button 
                 id='undo-button'
                 onClick={handleUndo}
+                disabled={editStatus}
                 variant="contained">
                     <UndoIcon />
             </Button>
             <Button 
                 id='redo-button'
                 onClick={handleRedo}
+                disabled={editStatus}
                 variant="contained">
                     <RedoIcon />
             </Button>

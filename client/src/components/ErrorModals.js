@@ -26,6 +26,7 @@ export default function ErrorModals() {
   const [open, setOpen] = React.useState(false);
   function handleClose(){
     isOpen=false;
+    auth.errorMessage=null;
   }
 
   let isOpen=false;

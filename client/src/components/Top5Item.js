@@ -74,7 +74,11 @@ function Top5Item(props) {
     function handleUpdateText(event) {
         setText(event.target.value);
     }
-
+    
+    let editStatus = false;
+    if (store.isItemEditActive) {
+        editStatus = true;
+    }
     let { index } = props;
 
     let itemClass = "top5-item";
@@ -102,7 +106,7 @@ function Top5Item(props) {
             onDrop={(event) => {
                 handleDrop(event, (index+1))
             }}
-            draggable="true"
+            draggable={!editStatus}
             sx={{ display: 'flex', p: 1 }}
             style={{
                 fontSize: '48pt',
@@ -110,7 +114,7 @@ function Top5Item(props) {
             }}
         >
             <Box sx={{ p: 1 }}>
-                <IconButton aria-label='edit' onClick={handleToggleEdit}>
+                <IconButton aria-label='edit' onClick={handleToggleEdit} disabled={editStatus}>
                     <EditIcon style={{fontSize:'48pt'}}  />
                 </IconButton>
             </Box>

@@ -25,10 +25,7 @@ export default function AppBanner() {
     const handleMenuClose = () => {
         setAnchorEl(null);
     };
-    const handleLogin = () =>{
-        handleMenuClose();
-        auth.loginUser();
-    }
+
     const handleLogout = () => {
         handleMenuClose();
         auth.logoutUser();
@@ -51,7 +48,7 @@ export default function AppBanner() {
             open={isMenuOpen}
             onClose={handleMenuClose}
         >
-            <MenuItem onClick={handleLogin}><Link to='/login/'>Login</Link></MenuItem>
+            <MenuItem onClick={handleMenuClose}><Link to='/login/'>Login</Link></MenuItem>
             <MenuItem onClick={handleMenuClose}><Link to='/register/'>Create New Account</Link></MenuItem>
         </Menu>
     );

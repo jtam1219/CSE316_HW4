@@ -197,7 +197,6 @@ function GlobalStoreContextProvider(props) {
             type: GlobalStoreActionType.CLOSE_CURRENT_LIST,
             payload: {}
         });
-        
         tps.clearAllTransactions();
         history.push("/");
     }
@@ -294,6 +293,7 @@ function GlobalStoreContextProvider(props) {
                     payload: top5List
                 });
                 history.push("/top5list/" + top5List._id);
+                store.updateToolbarButtons();
             }
         }
     }
@@ -301,12 +301,14 @@ function GlobalStoreContextProvider(props) {
     store.addMoveItemTransaction = function (start, end) {
         let transaction = new MoveItem_Transaction(store, start, end);
         tps.addTransaction(transaction);
+        store.updateToolbarButtons();
     }
 
     store.addUpdateItemTransaction = function (index, newText) {
         let oldText = store.currentList.items[index];
         let transaction = new UpdateItem_Transaction(store, index, oldText, newText);
         tps.addTransaction(transaction);
+        store.updateToolbarButtons();
     }
 
     store.moveItem = function (start, end) {
@@ -360,6 +362,32 @@ function GlobalStoreContextProvider(props) {
 
     store.canRedo = function() {
         return tps.hasTransactionToRedo();
+    }
+
+    store.disableButton = function(id) {
+        let button = document.getElementById(id);
+        button.disabled=true;
+    }
+
+    store.enableButton = function(id) {
+        let button = document.getElementById(id);
+        button.disabled=false;
+    }
+
+    store.updateToolbarButtons = function() {
+        if (!store.canUndo) {
+            this.disableButton("undo-button");
+        }
+        else {
+            this.enableButton("undo-button");
+        }   
+        if (!store.canRedo) {
+            this.disableButton("redo-button");
+        }
+        else {
+            this.enableButton("redo-button");
+        }   
+        
     }
 
     // THIS FUNCTION ENABLES THE PROCESS OF EDITING A LIST NAME

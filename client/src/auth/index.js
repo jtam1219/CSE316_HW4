@@ -66,7 +66,8 @@ function AuthContextProvider(props) {
                     type: AuthActionType.SET_LOGGED_IN,
                     payload: {
                         loggedIn: response.data.loggedIn,
-                        user: response.data.user
+                        user: response.data.user,
+                        errorMessage: response.data.errorMessage
                     }
                 });
             }
@@ -86,7 +87,8 @@ function AuthContextProvider(props) {
                 authReducer({
                     type: AuthActionType.REGISTER_USER,
                     payload: {
-                        user: response.data.user
+                        user: response.data.user,
+                        errorMessage: response.data.errorMessage
                     }
                 })
                 history.push("/");
@@ -105,7 +107,9 @@ function AuthContextProvider(props) {
                 authReducer({
                     type: AuthActionType.LOGIN_USER,
                     payload: {
-                        user: response.data.user
+                        user: response.data.user,
+                        errorMessage: response.data.errorMessage
+                        
                     }
                 })
                 history.push("/");
@@ -124,7 +128,8 @@ function AuthContextProvider(props) {
                 authReducer({
                     type: AuthActionType.LOGOUT_USER,
                     payload: {
-                        user: response.data.user
+                        user: response.data.user,
+                        errorMessage: response.data.errorMessage
                     }
                 });
             }

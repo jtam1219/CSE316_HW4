@@ -56,6 +56,11 @@ function ListCard(props) {
         setText(event.target.value);
     }
 
+    let editStatus = false;
+    if (store.isListNameEditActive) {
+        editStatus = true;
+    }
+
     let cardElement =
         <ListItem
             id={idNamePair._id}
@@ -70,17 +75,18 @@ function ListCard(props) {
                 fontSize: '48pt',
                 width: '100%'
             }}
+            disabled={editStatus}
         >
                 <Box sx={{ p: 1, flexGrow: 1 }}>{idNamePair.name}</Box>
                 <Box sx={{ p: 1 }}>
-                    <IconButton onClick={handleToggleEdit} aria-label='edit'>
+                    <IconButton onClick={handleToggleEdit} aria-label='edit' disabled={editStatus}>
                         <EditIcon style={{fontSize:'48pt'}} />
                     </IconButton>
                 </Box>
                 <Box sx={{ p: 1 }}>
                     <IconButton onClick={(event) => {
                         handleDeleteList(event, idNamePair._id)
-                    }} aria-label='delete'>
+                    }} aria-label='delete' disabled={editStatus}> 
                         <DeleteIcon style={{fontSize:'48pt'}} />
                     </IconButton>
                 </Box>
