@@ -5,6 +5,7 @@ import { Fab, Typography } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add';
 import List from '@mui/material/List';
 import AuthContext from '../auth';
+import DeleteModal from './DeleteModal';
 
 /*
     This React component lists all the top5 lists in the UI.
@@ -14,7 +15,6 @@ import AuthContext from '../auth';
 const HomeScreen = () => {
     const { store } = useContext(GlobalStoreContext);
      const { auth } = useContext(AuthContext);
-
     useEffect(() => {
         store.loadIdNamePairs();
     }, []);
@@ -23,9 +23,8 @@ const HomeScreen = () => {
         store.createNewList();
     }
     let listCard = "";
+
     if (store) {
-        console.log(auth.user.email)
-        console.log(store.idNamePairs)
         let sortedPairs=[];
         for (let idNamePair in store.idNamePairs){
             let list = store.idNamePairs[idNamePair];
@@ -69,6 +68,7 @@ const HomeScreen = () => {
                 {
                     listCard
                 }
+                <DeleteModal />
             </div>
         </div>)
 }

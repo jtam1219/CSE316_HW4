@@ -1,20 +1,10 @@
-/*
-    This modal is shown when the user asks to delete a list. Note 
-    that before this is shown a list has to be marked for deletion,
-    which means its id has to be known so that we can retrieve its
-    information and display its name in this modal. If the user presses
-    confirm, it will be deleted.
-    
-    @author McKilla Gorilla
-*/
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import Modal from '@mui/material/Modal';
+import Modal from '@mui/material/Modal'
 import { useContext } from 'react'
 import { GlobalStoreContext } from '../store'
-import Stack from '@mui/material/Stack';
 
 const style = {
   position: 'absolute',
@@ -29,49 +19,43 @@ const style = {
 };
 
 export default function DeleteModal() {
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
   const { store } = useContext(GlobalStoreContext);
   let name = "";
   if (store.currentList) {
-      name = store.currentList.name;
+        name = store.currentList.name;
   }
+
   function handleDeleteList() {
-      store.deleteMarkedList();
+    store.deleteMarkedList();
+    isOpen=false;
+  }
+
+  function handleClose(){ 
+    store.unmarkListForDeletion();
+    isOpen=false;
+  }
+
+  let isOpen=false;
+  if (store.listMarkedForDeletion){
+    isOpen=true;
   }
 
   return (
     <div>
       <Modal
-        open={open}
-        onClose={handleClose}
         className="modal"
-        id="delete-modal"
-        data-animation="slideInOutLeft"
+        open={isOpen}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style} className="modal-dialog">
-          <Typography id="modal-modal-title" className="dialog-header" variant="h6" component="h2">
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
             Delete the Top 5 {name} List?
-            <Stack direction="row" spacing={2}>
-              <Button 
-                id="dialog-yes-button"  
-                className="modal-button"
-                onClick={handleDeleteList}
-                variant="contained">
-                  Confirm
-              </Button>
-              <Button 
-                id="dialog-no-button"
-                className="modal-button"
-                onClick={handleClose}
-                variant="contained">
-                  Cancel
-              </Button>
-            </Stack>
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            <Button onClick={handleDeleteList}>Confirm</Button>
+            <Button onClick={handleClose}>Cancel</Button>
           </Typography>
         </Box>
       </Modal>
