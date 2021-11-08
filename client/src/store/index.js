@@ -159,7 +159,7 @@ function GlobalStoreContextProvider(props) {
                 return setStore({
                     idNamePairs: null,
                     currentList: null,
-                    newListCounter: null,
+                    newListCounter: store.newListCounter,
                     isListNameEditActive: false,
                     isItemEditActive: false,
                     listMarkedForDeletion: null,
@@ -170,7 +170,7 @@ function GlobalStoreContextProvider(props) {
                 return setStore({
                     idNamePairs: null,
                     currentList: null,
-                    newListCounter: null,
+                    newListCounter: store.newListCounter,
                     isListNameEditActive: false,
                     isItemEditActive: false,
                     listMarkedForDeletion: null,
@@ -249,6 +249,7 @@ function GlobalStoreContextProvider(props) {
         else {
             console.log("API FAILED TO CREATE A NEW LIST");
         }
+        store.updateToolbarButtons();
     }
 
     // THIS FUNCTION LOADS ALL THE ID, NAME PAIRS SO WE CAN LIST ALL THE LISTS
